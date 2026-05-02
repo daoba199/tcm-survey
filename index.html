@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中医体质自测问卷</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+    .container { max-width: 600px; margin: 0 auto; }
+    h1 { text-align: center; color: #fff; margin-bottom: 20px; font-size: 24px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    .section { background: #fff; border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+    .section-title { font-size: 18px; font-weight: 600; color: #333; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+    .section-desc { font-size: 13px; color: #888; margin-bottom: 16px; }
+    .item { display: flex; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+    .item:last-child { border-bottom: none; }
+    .item-text { flex: 1; font-size: 15px; color: #333; line-height: 1.5; }
+    .checkbox-wrap { display: flex; align-items: center; justify-content: center; width: 44px; flex-shrink: 0; }
+    .checkbox { width: 22px; height: 22px; cursor: pointer; accent-color: #667eea; }
+    .count-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; height: 24px; background: #667eea; color: #fff; border-radius: 12px; font-size: 13px; font-weight: 600; padding: 0 8px; }
+    .result { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: #fff; border-radius: 16px; padding: 20px; margin-bottom: 16px; display: none; }
+    .result-title { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+    .result-item { background: rgba(255,255,255,0.2); border-radius: 8px; padding: 12px; margin-bottom: 8px; }
+    .result-item:last-child { margin-bottom: 0; }
+    .result-label { font-weight: 600; margin-bottom: 4px; }
+    .result-advice { font-size: 14px; opacity: 0.95; }
+    .btn { display: block; width: 100%; padding: 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; border: none; border-radius: 12px; font-size: 18px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: transform 0.2s, box-shadow 0.2s; }
+    .btn:active { transform: scale(0.98); }
+    .info-box { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 16px; margin-bottom: 16px; font-size: 14px; color: #666; line-height: 1.6; }
+    .info-box strong { color: #667eea; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏥 中医体质自测问卷</h1>
+    <div class="info-box">
+      <strong>填写说明：</strong>请根据您最近一个月的实际感受，勾选符合的选项。提交后可查看体质分析结果。
+    </div>
+
+    <!-- 脾胃虚弱 -->
+    <div class="section" data-section="pwxr">
+      <div class="section-title">一、脾胃虚弱自测 <span class="count-badge" id="pwxr-count">0</span></div>
+      <div class="section-desc">符合3条以上建议调理脾胃</div>
+      <div class="item"><div class="item-text">吃一点就饱、容易腹胀、不消化</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="pwxr"></div></div>
+      <div class="item"><div class="item-text">大便不成形、黏马桶、冲不干净</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="pwxr"></div></div>
+      <div class="item"><div class="item-text">面色发黄、暗沉、没光泽</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="pwxr"></div></div>
+      <div class="item"><div class="item-text">容易累、懒得动、说话没力气</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="pwxr"></div></div>
+      <div class="item"><div class="item-text">肌肉松垮、虚胖、喝水都长肉</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="pwxr"></div></div>
+      <div class="item"><div class="item-text">舌头胖大、有齿痕、舌苔偏白</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="pwxr"></div></div>
+    </div>
+
+    <!-- 体内湿气 -->
+    <div class="section" data-section="tnsq">
+      <div class="section-title">二、体内湿气自测 <span class="count-badge" id="tnsq-count">0</span></div>
+      <div class="section-desc">符合3条以上建议祛湿</div>
+      <div class="item"><div class="item-text">身体沉重、犯困、总睡不醒</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="tnsq"></div></div>
+      <div class="item"><div class="item-text">头脸爱出油、长痘、头发油得快</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="tnsq"></div></div>
+      <div class="item"><div class="item-text">白带多、黏腻、有异味（女性）</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="tnsq"></div></div>
+      <div class="item"><div class="item-text">下肢浮肿、早上眼皮肿</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="tnsq"></div></div>
+      <div class="item"><div class="item-text">情绪闷、烦躁、提不起劲</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="tnsq"></div></div>
+      <div class="item"><div class="item-text">舌苔厚腻、发白或发黄</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="tnsq"></div></div>
+    </div>
+
+    <!-- 气血不足 -->
+    <div class="section" data-section="qxbz">
+      <div class="section-title">三、气血不足自测 <span class="count-badge" id="qxbz-count">0</span></div>
+      <div class="section-desc">符合3条以上建议补气血</div>
+      <div class="item"><div class="item-text">脸色苍白/萎黄、嘴唇指甲色淡</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="qxbz"></div></div>
+      <div class="item"><div class="item-text">头晕、蹲起发黑、心慌</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="qxbz"></div></div>
+      <div class="item"><div class="item-text">月经量少、推迟、颜色淡</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="qxbz"></div></div>
+      <div class="item"><div class="item-text">掉发多、干枯、白发早生</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="qxbz"></div></div>
+      <div class="item"><div class="item-text">失眠多梦、容易惊醒</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="qxbz"></div></div>
+      <div class="item"><div class="item-text">手脚常年冰凉、怕冷</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="qxbz"></div></div>
+    </div>
+
+    <!-- 睡眠质量 -->
+    <div class="section" data-section="smzl">
+      <div class="section-title">四、睡眠质量自测 <span class="count-badge" id="smzl-count">0</span></div>
+      <div class="section-desc">符合3条以上可能存在脾虚湿重+气血不足型失眠</div>
+      <div class="item"><div class="item-text">入睡困难，躺床上半小时以上还睡不着</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="smzl"></div></div>
+      <div class="item"><div class="item-text">梦特别多、乱梦纷纭，像演电视剧</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="smzl"></div></div>
+      <div class="item"><div class="item-text">容易醒，夜里醒1～3次，醒了难再睡</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="smzl"></div></div>
+      <div class="item"><div class="item-text">早上醒得早，凌晨3～5点醒</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="smzl"></div></div>
+      <div class="item"><div class="item-text">睡醒还是累，越睡越困、没精神</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="smzl"></div></div>
+      <div class="item"><div class="item-text">心烦、心慌、容易紧张、焦虑</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="smzl"></div></div>
+      <div class="item"><div class="item-text">头顶闷、头胀、记忆力下降</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="smzl"></div></div>
+      <div class="item"><div class="item-text">口苦、口干、夜里想喝水</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="smzl"></div></div>
+      <div class="item"><div class="item-text">女性伴随月经不调、量少、情绪暴躁</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="smzl"></div></div>
+      <div class="item"><div class="item-text">舌头偏红/偏淡，舌苔厚腻</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="smzl"></div></div>
+    </div>
+
+    <!-- 结果区域 -->
+    <div class="result" id="result"></div>
+
+    <button class="btn" onclick="showResult()">📊 查看体质分析结果</button>
+  </div>
+
+  <script>
+    document.querySelectorAll('.checkbox').forEach(cb => {
+      cb.addEventListener('change', function() {
+        const section = this.dataset.section;
+        const count = document.querySelectorAll(`.checkbox[data-section="${section}"]:checked`).length;
+        document.getElementById(`${section}-count`).textContent = count;
+      });
+    });
+
+    function showResult() {
+      const counts = {
+        pwxr: document.querySelectorAll('.checkbox[data-section="pwxr"]:checked').length,
+        tnsq: document.querySelectorAll('.checkbox[data-section="tnsq"]:checked').length,
+        qxbz: document.querySelectorAll('.checkbox[data-section="qxbz"]:checked').length,
+        smzl: document.querySelectorAll('.checkbox[data-section="smzl"]:checked').length
+      };
+
+      const advices = {
+        pwxr: { name: '脾胃虚弱', advice: '建议：规律饮食，少食生冷，可食用山药、薏米、红枣等健脾食物，必要时咨询中医调理。' },
+        tnsq: { name: '体内湿气重', advice: '建议：少吃油腻甜食，适当运动出汗，可食用红豆薏米汤、冬瓜等祛湿食物。' },
+        qxbz: { name: '气血不足', advice: '建议：保证睡眠，可食用桂圆、红枣、当归、黄芪等补气血食材，避免过度劳累。' },
+        smzl: { name: '睡眠质量差', advice: '建议：睡前避免看手机，可泡脚、喝温牛奶，保持卧室安静黑暗，必要时就医调理。' }
+      };
+
+      let html = '<div class="result-title">📋 您的体质分析结果</div>';
+      let hasIssue = false;
+
+      for (const [key, count] of Object.entries(counts)) {
+        if (count >= 3) {
+          hasIssue = true;
+          html += `<div class="result-item"><div class="result-label">${advices[key].name}（${count}项）</div><div class="result-advice">${advices[key].advice}</div></div>`;
+        }
+      }
+
+      if (!hasIssue) {
+        html += '<div class="result-item"><div class="result-label">🎉 体质良好</div><div class="result-advice">您目前各项指标正常，继续保持健康的生活方式即可！</div></div>';
+      }
+
+      document.getElementById('result').innerHTML = html;
+      document.getElementById('result').style.display = 'block';
+      document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
