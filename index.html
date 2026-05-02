@@ -28,6 +28,14 @@
     .btn:active { transform: scale(0.98); }
     .info-box { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 16px; margin-bottom: 16px; font-size: 14px; color: #666; line-height: 1.6; }
     .info-box strong { color: #667eea; }
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 999; justify-content: center; align-items: center; padding: 20px; }
+    .modal { background: #fff; border-radius: 20px; padding: 28px; max-width: 400px; width: 100%; text-align: center; animation: popIn 0.3s ease; }
+    @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .modal-icon { font-size: 48px; margin-bottom: 16px; }
+    .modal-title { font-size: 20px; font-weight: 700; color: #333; margin-bottom: 8px; }
+    .modal-desc { font-size: 15px; color: #666; line-height: 1.6; margin-bottom: 24px; }
+    .modal-btn { display: inline-block; width: auto; padding: 12px 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none; margin: 6px; }
+    .modal-btn-secondary { background: #f0f0f0; color: #666; }
   </style>
 </head>
 <body>
@@ -89,8 +97,50 @@
       <div class="item"><div class="item-text">舌头偏红/偏淡，舌苔厚腻</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="smzl"></div></div>
     </div>
 
+    <div class="info-box">
+      <strong>填写说明：</strong>请根据您最近一个月的实际感受，勾选符合的选项。提交后可查看体质分析结果。
+    </div>
+
+    <!-- 阳虚体质 -->
+    <div class="section" data-section="yxxs">
+      <div class="section-title">五、阳虚体质自测 <span class="count-badge" id="yxxs-count">0</span></div>
+      <div class="section-desc">符合3条以上提示阳虚体质</div>
+      <div class="item"><div class="item-text">手脚/腰背/膝盖常年冰凉，冬天特别怕冷</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="yxxs"></div></div>
+      <div class="item"><div class="item-text">容易腹泻，吃凉东西就拉肚子或胃痛</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="yxxs"></div></div>
+      <div class="item"><div class="item-text">尿多、起夜频繁（夜尿2次以上）</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="yxxs"></div></div>
+      <div class="item"><div class="item-text">精神差，容易疲乏，嗜睡但不解乏</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="yxxs"></div></div>
+      <div class="item"><div class="item-text">性欲减退，男性可能有阳痿/早泄</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="yxxs"></div></div>
+      <div class="item"><div class="item-text">舌头颜色淡胖，舌苔白，舌边有齿痕</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="yxxs"></div></div>
+      <div class="item"><div class="item-text">容易感冒，一变天/吹空调就受凉</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="yxxs"></div></div>
+      <div class="item"><div class="item-text">面色苍白或暗淡，缺乏血色</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="yxxs"></div></div>
+    </div>
+
+    <!-- 阴虚体质 -->
+    <div class="section" data-section="yxxs2">
+      <div class="section-title">六、阴虚体质自测 <span class="count-badge" id="yxxs2-count">0</span></div>
+      <div class="section-desc">符合3条以上提示阴虚体质</div>
+      <div class="item"><div class="item-text">手脚心发热（手心脚心烫，想放凉的地方）</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="yxxs2"></div></div>
+      <div class="item"><div class="item-text">口干舌燥，喝水不解渴，嗓子发干</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="yxxs2"></div></div>
+      <div class="item"><div class="item-text">大便干燥，容易便秘</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="yxxs2"></div></div>
+      <div class="item"><div class="item-text">脸颊潮红、手心/脚心发热，尤其下午/晚上明显</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="yxxs2"></div></div>
+      <div class="item"><div class="item-text">失眠多梦，睡着了出汗（盗汗）</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="yxxs2"></div></div>
+      <div class="item"><div class="item-text">脾气急躁，容易上火，容易长痘/口腔溃疡</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="yxxs2"></div></div>
+      <div class="item"><div class="item-text">月经量少、提前，量少色红</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="yxxs2"></div></div>
+      <div class="item"><div class="item-text">舌红少津，舌苔少或无舌苔，裂纹舌</div><div class="checkbox-wrap"><input type="checkbox" class="checkbox" data-section="yxxs2"></div></div>
+    </div>
+
     <!-- 结果区域 -->
     <div class="result" id="result"></div>
+
+    <!-- 弹窗 -->
+    <div class="modal-overlay" id="modal">
+      <div class="modal">
+        <div class="modal-icon">📸</div>
+        <div class="modal-title">保存截图发给小助理</div>
+        <div class="modal-desc">免费领取一对一咨询调理服务<br>长按保存上方结果图，<br>发给我的中医小助理即可~</div>
+        <button class="modal-btn" onclick="closeModal()">知道了</button>
+      </div>
+    </div>
 
     <button class="btn" onclick="showResult()">📊 查看体质分析结果</button>
   </div>
@@ -113,10 +163,12 @@
       };
 
       const advices = {
-        pwxr: { name: '脾胃虚弱', advice: '建议：规律饮食，少食生冷，可食用山药、薏米、红枣等健脾食物，必要时咨询中医调理。' },
-        tnsq: { name: '体内湿气重', advice: '建议：少吃油腻甜食，适当运动出汗，可食用红豆薏米汤、冬瓜等祛湿食物。' },
-        qxbz: { name: '气血不足', advice: '建议：保证睡眠，可食用桂圆、红枣、当归、黄芪等补气血食材，避免过度劳累。' },
-        smzl: { name: '睡眠质量差', advice: '建议：睡前避免看手机，可泡脚、喝温牛奶，保持卧室安静黑暗，必要时就医调理。' }
+        pwxr:  { name: '脾胃虚弱', advice: '建议：规律饮食，少食生冷，可食用山药、薏米、红枣等健脾食物，必要时咨询中医调理。' },
+        tnsq:  { name: '体内湿气重', advice: '建议：少吃油腻甜食，适当运动出汗，可食用红豆薏米汤、冬瓜等祛湿食物。' },
+        qxbz:  { name: '气血不足', advice: '建议：保证睡眠，可食用桂圆、红枣、当归、黄芪等补气血食材，避免过度劳累。' },
+        smzl:  { name: '睡眠质量差', advice: '建议：睡前避免看手机，可泡脚、喝温牛奶，保持卧室安静黑暗，必要时就医调理。' },
+        yxxs:  { name: '阳虚体质', advice: '建议：少吃生冷冰凉食物，多吃羊肉、桂圆、红枣等温补食材，注意保暖，避免过度劳累，可艾灸关元/命门穴。' },
+        yxxs2: { name: '阴虚体质', advice: '建议：少吃辛辣油炸，多吃银耳、百合、麦冬、石斛等滋阴食材，早睡养阴，避免情绪激动，必要时咨询中医调理。' }
       };
 
       let html = '<div class="result-title">📋 您的体质分析结果</div>';
@@ -136,7 +188,16 @@
       document.getElementById('result').innerHTML = html;
       document.getElementById('result').style.display = 'block';
       document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => { document.getElementById('modal').style.display = 'flex'; }, 500);
     }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    document.getElementById('modal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
   </script>
 </body>
 </html>
